@@ -29,7 +29,7 @@ const wait = () =>
                 },
             ]).then( (data) => {
                 let svg;
-                if (data.logoName.length > 3) reject(new Error('Please enter only 3 characters for the logo'));
+                if (data.logoName.length > 3) reject(new Error('Please enter only 3 characters for the logo')); //if the user didn't read the prompt, this error will stop the function in its tracks, logo object will not be created
                 switch (data.shape) {
                     case 'circle':
                         svg = new Circle(data.shapeColor, data.logoName, data.textColor);
@@ -42,16 +42,15 @@ const wait = () =>
                         break;  
                 }
                 return svg;
-            }).then( (svg) => resolve(svg))
-              .catch((err) => reject(err));
+            }).then( (svg) => resolve(svg)) //sends the program to line 50 where it can continue with svg
+              .catch((err) => reject(err)); //this catches any error that isn't the one thrown on line 32
     });
 
     wait()
         .then((svg) => {
-            console.log(svg.render());
             console.log('Logo created!');
             generateSVG(svg);
             return svg;
         }).catch((err) => console.log(err))
 
-module.exports = { wait };
+module.exports = { wait }; //exported to be used for testing
